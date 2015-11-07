@@ -6,6 +6,7 @@
 dist
 build
 _build
+.cache
 
 # Installer logs
 pip-log.txt
