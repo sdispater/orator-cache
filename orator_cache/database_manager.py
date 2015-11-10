@@ -33,5 +33,8 @@ class DatabaseManager(BaseDatabaseManager):
 
         return connection
 
+    def set_cache(self, cache):
+        self._cache = cache
+
     def get_cache(self):
         return self._cache

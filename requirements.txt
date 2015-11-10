@@ -1,2 +1,2 @@
-git+https://github.com/sdispater/orator.git@develop
+orator>=0.7
 cachy

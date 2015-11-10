@@ -29,9 +29,9 @@ setup(
     author_email='sebastien.eustace@gmail.com',
     url='https://github.com/sdispater/orator-cache',
     download_url='https://github.com/sdispater/orator-cache/archive/%s.tar.gz' % __version__,
-    packages=find_packages(),
+    packages=find_packages(exclude=['tests']),
     install_requires=[
-        'orator',
+        'orator>=0.7',
         'cachy'
     ],
     tests_require=['pytest', 'mock', 'flexmock'],
