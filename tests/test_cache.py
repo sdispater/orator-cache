@@ -162,7 +162,7 @@ class DatabaseIntegrationConnectionResolver(DatabaseManager):
 
         self._connection = SQLiteConnection(
             SQLiteConnector().connect({'database': ':memory:'}),
-            config={'name': 'test'}
+            config={'name': u'test'}
         )
 
         self._prepare(self._connection)

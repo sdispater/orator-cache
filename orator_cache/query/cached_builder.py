@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import hashlib
-from orator.utils import encode
+from ..utils import encode
 from orator.query.builder import QueryBuilder
 
 
@@ -193,7 +193,7 @@ class CachedQueryBuilder(QueryBuilder):
 
         return '%s' % (
             hashlib.sha1(
-                encode(name + self.to_sql()) + cache.serialize(self.get_bindings())
+                encode(name) + encode(self.to_sql()) + cache.serialize(self.get_bindings())
             ).hexdigest()
         )
 
