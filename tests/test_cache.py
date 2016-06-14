@@ -4,6 +4,7 @@ from unittest import TestCase
 from orator import Model
 from orator.connections import SQLiteConnection
 from orator.connectors.sqlite_connector import SQLiteConnector
+from orator.orm.scopes import Scope
 from orator_cache import DatabaseManager, Cache
 
 cache = Cache({
@@ -102,6 +103,10 @@ class OratorCacheTestCase(TestCase):
         user = query().find(1)
         self.assertEqual('foo@foo.com', user.email)
 
+    def test_builder_on_models_with_global_scopes(self):
+        popular_users = PopularUser.all()
+        cached_popular_users = PopularUser.remember(10).get()
+
     def connection(self):
         return Model.get_connection_resolver().connection()
 
@@ -128,6 +133,23 @@ class User(Model):
     @property
     def photos(self):
         return self.morph_many(Photo, 'imageable')
+
+
+class Popular(Scope):
+
+    def apply(self, builder, model):
+        return builder.where('votes', '>', 10)
+
+
+class PopularUser(User):
+
+    __table__ = 'users'
+
+    @classmethod
+    def _boot(cls):
+        cls.add_global_scope(Popular())
+
+        return super(PopularUser, cls)._boot()
 
 
 class Post(Model):

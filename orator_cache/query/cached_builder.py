@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import hashlib
+import copy
 from ..utils import encode
 from orator.query.builder import QueryBuilder
 
@@ -207,3 +208,12 @@ class CachedQueryBuilder(QueryBuilder):
         :rtype: callable
         """
         return lambda: self.get_fresh(columns)
+
+    def __copy__(self):
+        new = self.__class__(self._connection, self._grammar, self._processor, self._cache)
+
+        new.__dict__.update(dict((k, copy.deepcopy(v)) for k, v
+                                 in self.__dict__.items()
+                                 if k not in ['_connection', '_grammar', '_processor', '_cache']))
+
+        return new
